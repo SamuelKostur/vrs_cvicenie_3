@@ -22,9 +22,32 @@
 #include "main.h"
 #include "assignment.h"
 
+int last_long_term_value = 0;
+int number_of_new_states = 0;
+
+enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples){
+	if(pin_state != last_long_term_value){
+		number_of_new_states++;
+		}
+	else
+		number_of_new_states = 0;
+
+	if(number_of_new_states >= samples){
+		last_long_term_value = pin_state;
+		number_of_new_states = 0;
+		if(pin_state == 1){
+			return RISE;
+		}
+		else if(pin_state == 0){
+			return FALL;
+		}
+	}
+	return NONE;
+}
+
 int main(void)
 {
-	//TEST
+	uint8_t samples = 5;
   /*
    *  DO NOT WRITE TO THE WHOLE REGISTER!!!
    *  Write to the bits, that are meant for change.
@@ -72,26 +95,10 @@ int main(void)
 
   while (1)
   {
-	  if(BUTTON_GET_STATE) //when button pushed
-	  {
-		  // 0.25s delay
-		  LL_mDelay(250);
-		  LED_ON;
-		  // 0.25s delay
-		  LL_mDelay(250);
-		  LED_OFF;
-	  }
-	  else
-	  {
-		  // 1s delay
-		  LL_mDelay(1000);
-		  LED_ON;
-		  // 1s delay
-		  LL_mDelay(1000);
-		  LED_OFF;
+	  if(edgeDetect(BUTTON_GET_STATE, samples) == FALL){
+		  LED_SWITCH;
 	  }
   }
-
 }
 
 /* USER CODE BEGIN 4 */
