@@ -45,14 +45,38 @@
 
 #define LED_ON					(GPIOA_ODR_REG |= (uint32_t)(1 << 4))
 #define LED_OFF					(GPIOA_ODR_REG &= ~(uint32_t)(1 << 4))
-#define LED_SWITCH				(GPIOA_IDR_REG & (uint32_t)(0x1 << 4)) ? LED_OFF : LED_ON
+/*
+ * Zmena stavu sa oznacuje "toggle", "switch" nie je uplne zrejmyy nazov.
+ * Sposob akym to robis, je OK, ale da sa to napisat aj viac sexy.
+ * Asi nam to na dalsich cvikach ukazu ako sa to vacsinou robi (znegovanie stavu kokretneho pinu)
+ * Ale ak na to prides este pred tym ako to ukazu budes mat zo seba lepsi pocit :D
+ */
+#define LED_TOGGLE				(GPIOA_IDR_REG & (uint32_t)(0x1 << 4)) ? LED_OFF : LED_ON
 
 /*
 #define LED_ON					(GPIOA_BSRR_REG |= (uint32_t)(1 << 4))
 #define LED_OFF					(GPIOA_BRR_REG |= (uint32_t)(1 << 4))
 */
 
-enum EDGE_TYPE {NONE,RISE,FALL};
+/*
+ * Osobne si myslim, ze je slusne dat kazdu instanciu enumu do samostatneho riadku (v pripade ze by potrebovala popis)
+ * Tiez si myslim ze je smutne ked prvemu das hodnotu, ale to nie je nutne.
+ * Btw. oni maju hodnotu 0 (defaultne) a tie dalsie su X++
+ *
+ * enum TMP{
+ * 	nula = 0,
+ * 	jedna,
+ * 	dva,
+ * 	pat = 5,
+ * 	sest,
+ * 	sedem
+ * };
+ */
+enum EDGE_TYPE {
+	NONE = 0,
+	RISE,
+	FALL
+};
 
 enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples);
 
