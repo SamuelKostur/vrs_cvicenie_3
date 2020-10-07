@@ -22,9 +22,8 @@
 #include "main.h"
 #include "assignment.h"
 
-// slusne je pouzit uint8_t 16/32
-int last_long_term_value = 0;
-int number_of_new_states = 0;
+uint8_t last_long_term_value = 0;
+uint8_t number_of_new_states = 0;
 
 enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples){
 	//OK
@@ -50,13 +49,6 @@ enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples){
 
 int main(void)
 {
-
-	/*
-	 * Naozaj je potrebne inizializovat premenu skor ako sa vobec nastavia zbernice?
-	 * Slusnejsie by to bolo dat pred While(1),
-	 * + ak to v kode nemenis tak daj "const uint8_t"
-	 */
-	uint8_t samples = 5;
   /*
    *  DO NOT WRITE TO THE WHOLE REGISTER!!!
    *  Write to the bits, that are meant for change.
@@ -103,7 +95,7 @@ int main(void)
   GPIOA_PUPDR_REG &= ~(uint32_t)(0x3 << 8);
 
 
-  // <--- Tu by som ja dal uzivatelske premenne
+  const uint8_t samples = 5;
 
 
   while (1)
