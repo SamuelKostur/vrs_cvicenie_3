@@ -37,6 +37,7 @@ extern "C" {
 #include "stm32f3xx_ll_pwr.h"
 #include "stm32f3xx_ll_dma.h"
 #include "stm32f3xx_ll_gpio.h"
+#include "assignment.h"
 
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
@@ -54,6 +55,9 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
+
+//function will detect edgetype on given GPIO_PIN
+enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples);
 
 /* USER CODE END Private defines */
 
