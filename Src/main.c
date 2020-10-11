@@ -20,32 +20,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "assignment.h"
 
-uint8_t last_long_term_value = 0;
-uint8_t number_of_new_states = 0;
 
-enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples){
-	//OK
-	if(pin_state != last_long_term_value){
-		number_of_new_states++;
-		}
-	else
-		number_of_new_states = 0;
-
-	//OK
-	if(number_of_new_states >= samples){
-		last_long_term_value = pin_state;
-		number_of_new_states = 0;
-		if(pin_state == 1){
-			return RISE;
-		}
-		else if(pin_state == 0){
-			return FALL;
-		}
-	}
-	return NONE;
-}
 
 int main(void)
 {
@@ -69,6 +45,8 @@ int main(void)
    * Code of the LED blink application is already given so just the macros used in the application must be defined.
    */
 
+
+  // =========== GPIO CONFIG ===========
 
   /* Enable clock for GPIO port A*/
   RCC_AHBENR_REG |= (uint32_t)(0x1 << 17);
@@ -95,19 +73,51 @@ int main(void)
   GPIOA_PUPDR_REG &= ~(uint32_t)(0x3 << 8);
 
 
-  const uint8_t samples = 5;
-
-
+  // =========== WHILE LOOP  ===========
   while (1)
   {
+	  const uint8_t samples = 100;
 	  if(edgeDetect(BUTTON_GET_STATE, samples) == FALL){
 		  LED_TOGGLE;
 	  }
-  }
-}
+  }// end of while
+
+}//end  of main
 
 /* USER CODE BEGIN 4 */
 
+enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples){
+	/* function will detect rising/falling edge
+	* pin_state - GPIO_PIN VALUE
+	* samples - size of input filter
+	*
+	* must be N samples of same value after GPIO_PIN change value,
+	* to return RISE/FALL edge
+	*/
+
+	// static and global variables have default value 0 by C/C++ standard
+	static uint8_t last_long_term_value;
+	static uint8_t number_of_new_states;
+
+	//OK
+	if(pin_state != last_long_term_value)
+		number_of_new_states++;
+	else
+		number_of_new_states = 0;
+
+	//OK
+	if(number_of_new_states >= samples){
+		last_long_term_value = pin_state;
+		number_of_new_states = 0;
+		if(pin_state == 1){
+			return RISE;
+		}
+		else if(pin_state == 0){
+			return FALL;
+		}
+	}
+	return NONE;
+}
 /* USER CODE END 4 */
 
 /**

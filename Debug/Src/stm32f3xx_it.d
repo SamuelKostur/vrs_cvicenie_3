@@ -16,7 +16,7 @@ Src/stm32f3xx_it.o: ../Src/stm32f3xx_it.c ../Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_pwr.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h \
- ../Inc/stm32f3xx_it.h
+ ../Inc/assignment.h ../Inc/stm32f3xx_it.h
 
 ../Inc/main.h:
 
@@ -53,5 +53,7 @@ Src/stm32f3xx_it.o: ../Src/stm32f3xx_it.c ../Inc/main.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h:
 
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h:
+
+../Inc/assignment.h:
 
 ../Inc/stm32f3xx_it.h:
